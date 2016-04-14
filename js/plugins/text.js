@@ -20,11 +20,14 @@ window.app.Wysiwyg.registerPlugin('text',  (function () {
 
     this.typing = function (str) {
       this.el.html(this.el.html() + str);
+      this.caret.end();
     };
 
     this.onKeyDownHook = function () {
 
     };
+
+    this.caret = new window.app.Caret(this.el);
   }
 
   return Text;
