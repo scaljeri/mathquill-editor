@@ -1,0 +1,14 @@
+{
+  "name": "mq",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lucas Calje <lucas@calje.eu> (http://calje.eu)",
+  "license": "ISC",
+  "dependencies": {
+      "mathquill": "git://github.com/mathquill/mathquill.git#master"
+  }
+}

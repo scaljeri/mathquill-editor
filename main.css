@@ -1,0 +1,39 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 10px;
+}
+
+.insert-formula::before {
+	content: 'Start formula'
+}
+
+.insert-formula.active::before {
+	content: 'End formula'
+}
+
+/* MathQuill fixes */
+.mq-textarea {
+	position: absolute!important;
+}
+.mq-editable-field, .mq-math-mode .mq-editable-field {
+	border: none!important;
+}
+
+.wrapper {
+	background-color: gray;
+	border: 1px solid gray;
+	border-radius: 2px;
+	padding: 5px;
+}
+
+.key {
+	margin-top: 5px;
+}
+
+.key img {
+	width: 20px;
+	height: 20px;
+}

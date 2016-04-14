@@ -1,0 +1,70 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" type="text/css" href="./node_modules/mathquill/build/mathquill.css">
+    <link rel="stylesheet" href="main.css">
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+
+    <script>
+        window.app = {noop: function () {}};
+    </script>
+    <script src="./js/wysiwyg.js"></script>
+    <script src="./js/plugins/formula.js"></script>
+    <script src="./js/plugins/text.js"></script>
+    <script src="./js/keys.js"></script>
+    <script src="./node_modules/mathquill/build/mathquill.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            outline: none!important;
+        }
+
+        .math-editor {
+            width: 300px;
+            min-height: 100px;
+            background-color: rgba(255,255,255, .1);
+            color: #fff;
+        }
+
+        .math-editor:focus {
+            border: 1px solid blue;
+        }
+
+        .wysiwyg span {
+            min-width: 5px;
+        }
+    </style>
+    <head>
+
+        <body>
+            <button add-formula class="insert-formula"></button> (double space)
+
+            <div class="wrapper">
+                <div math-editor class="math-editor"></div>
+            </div>
+            <div keys>
+                <button key-action="pi" class="key"><img src="./img/keyboard-pi.svg"></button>
+                <button key-action="sqrt" class="key"><img src="./img/keyboard-square-root.svg"></button>
+            </div>
+
+            <script>
+                var wysiwyg = new window.app.Wysiwyg($('[math-editor]'));
+                var formulaEditor;
+
+                $('[add-formula]').click(function () {
+                    $(this).toggleClass('active');
+
+                    if ($(this).hasClass('active')) {
+                        wysiwyg.create('formula');
+                    } else {
+                        wysiwyg.next();
+                    }
+                });
+
+                app.keys.setup($('[keys]'), wysiwyg);
+            </script>
+        </body>
+        <html>
