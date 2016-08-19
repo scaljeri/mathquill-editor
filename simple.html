@@ -165,7 +165,7 @@
         svg.attr('width', $('.math').width());
         var line = svg.find('line');
 
-        line.attr('x1', pos1.left).attr('y1', pos1.top + first.height()).attr('x2', pos2.left + last.width()).attr('y2', pos2.top);
+        line.attr('x1', pos1.left + 2).attr('y1', pos1.top + first.height() -2).attr('x2', pos2.left + last.width() - 4).attr('y2', pos2.top +4);
         //$('<svg height="1000" width="1000"></svg>').append(line).appendTo('body');
         svg.appendTo('.math');
 
