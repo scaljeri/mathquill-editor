@@ -19,6 +19,29 @@
             background-color: rgba(255, 255, 255, .1);
             color: #fff;
         }
+
+        .stripe-through {
+            margin-top: 20px;
+            width: 40px;
+            height: 40px;
+        }
+
+        .math {
+            position: relative;
+        }
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        svg line {
+            stroke: rgb(0, 0, 0);
+        }
+
+        .stripe-through img {
+            width: 100%;
+            height: 100%;
+        }
     </style>
 
     <script src="https://code.jquery.com/jquery-2.2.3.min.js"
@@ -42,6 +65,7 @@
         wefwe
     </div>
 </div>
+<button class="stripe-through"><img src="img/stripe-throug.png"></button>
 
 <script>
     var caret = new app.Caret($('.editor')[0]);
@@ -124,6 +148,29 @@
          }
          */
     });
+
+    $('.stripe-through').mousedown(function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        var selection = MQ($('.math')[0]).__controller.cursor.selection.jQ;
+        var first = $(selection[0].firstChild);
+        var last = $(selection[0].lastChild);
+
+        var pos1 = first.position();
+        var pos2 = last.position();
+
+        var svg = $('<svg><line></line></svg>');
+        svg.attr('height', $('.math').height());
+        svg.attr('width', $('.math').width());
+        var line = svg.find('line');
+
+        line.attr('x1', pos1.left).attr('y1', pos1.top + first.height()).attr('x2', pos2.left + last.width()).attr('y2', pos2.top);
+        //$('<svg height="1000" width="1000"></svg>').append(line).appendTo('body');
+        svg.appendTo('.math');
+
+
+    })
 
     /*
      setTimeout(function () {

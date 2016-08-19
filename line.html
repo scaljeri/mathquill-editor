@@ -1,0 +1,70 @@
+<!doctype html>
+
+<html>
+<head>
+    <link rel="stylesheet" href="main.css">
+
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js"
+            integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <style>
+        html, body {
+            height: calc(100% - 50px);
+        }
+
+        body {
+            position: relative;
+            margin: 50px;
+            border: 1px solid grey;
+        }
+
+        .a, .b {
+            border: 1px solid green;
+            width: 100px;
+            height: 100px;
+        }
+
+        .a {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .b {
+            position: absolute;
+            bottom: 100px;
+            right: 50px;
+        }
+
+        svg line {
+            stroke: rgb(255, 0, 0);
+        }
+    </style>
+    <script>
+    </script>
+    <head>
+
+<body>
+
+<div class="a">Bar Foo</div>
+<div class="b">Foo Bar</div>
+
+<!--
+<svg height="1000" width="1000">
+    <line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
+</svg>
+-->
+
+<script>
+    var svg = $('<svg height="100%" width="100%"><line></line></svg>');
+    var line = svg.find('line');
+
+    var pos1 = $('.a').position();
+    var pos2 = $('.b').position();
+    line.attr('x1', pos1.left).attr('y1', pos1.top).attr('x2', pos2.left).attr('y2', pos2.top);
+    //$('<svg height="1000" width="1000"></svg>').append(line).appendTo('body');
+    svg.appendTo('body');
+
+    //$('<svg height="1000" width="1000"> <line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(0,0,0);stroke-width:2" /> </svg>').appendTo('body');
+</script>
+</body>
+<html>
