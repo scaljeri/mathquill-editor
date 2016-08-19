@@ -1,0 +1,72 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <style>
+        div {
+            border: 1px solid #000;
+            height: 100px;
+            width: 200px;
+        }
+
+        span {
+            font-weight: 700;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js"
+            integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <script>
+        window.app = {};
+    </script>
+
+    <script src="./js/caret.js"></script>
+    <head>
+
+<body>
+<div contenteditable="true">
+12345<span>12345678</span>123456789
+</div>
+<script>
+
+    var element = $('div');
+    var caret = new app.Caret(element[0]);
+
+    $('div').click(function () {
+        //caret.setPosition(2);
+        caret.getElement();
+    });
+
+    /*
+    window.create = function () {
+        var userSelection;
+        if (window.getSelection) {
+            userSelection = window.getSelection();
+        }
+        else if (document.selection) { // should come last; Opera!
+            userSelection = document.selection.createRange();
+        }
+        return userSelection;
+    }
+
+    $('div').click(function () {
+        var el = $('div')[0];
+        setTimeout(function () {
+            console.log("go");
+            var selection = create();
+            var range = document.createRange();
+            range.setStart(el.childNodes[0], 2);
+            debugger;
+            //range.setEnd(el.childNodes[0], 4);
+            range.collapse(true);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }, 1000);
+    });
+    */
+</script>
+</body>
+<html>
+
+

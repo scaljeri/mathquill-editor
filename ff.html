@@ -1,0 +1,41 @@
+<!doctype html>
+
+<html>
+    <head>	
+	<link rel="stylesheet" href="main.css">
+
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+        <style>
+        </style>
+        <script>
+        </script>
+    <head>
+
+    <body>
+
+        <textarea>bar foo</textarea>
+
+        <div contenteditable="true">Bar foo</div>
+
+        <script>
+            $('textarea').click(function(e) {
+                setTimeout(function () {
+                    $('div')[0].focus();
+                }, 1000);
+            });
+
+            setTimeout(function () {
+                var el = $('div')[0].firstChild;
+                debugger;
+                var range = document.createRange();
+                range.setStart(el, 3);
+                range.collapse(true);
+
+                var selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+                $('div')[0].focus();
+            }, 1000);
+        </script>
+    </body>
+<html>

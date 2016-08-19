@@ -1,0 +1,138 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="./libs/mathquill/build/mathquill.css">
+    <link rel="stylesheet" href="main.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            outline: none !important;
+        }
+
+        .editor {
+            width: 300px;
+            min-height: 100px;
+            background-color: rgba(255, 255, 255, .1);
+            color: #fff;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js"
+            integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <script src="./libs/mathquill/build/mathquill.js"></script>
+
+    <script>
+        window.MQ = MathQuill.getInterface(2);
+        window.app = {};
+    </script>
+
+    <script src="./js/caret.js"></script>
+    <head>
+
+<body>
+<div class="wrapper">
+    <div math-editor class="editor" contenteditable="true">fwefw
+        <br/>
+        wefwefw <span class="math" contenteditable="false"></span> asda
+        <br/>
+        wefwe
+    </div>
+</div>
+
+<script>
+    var caret = new app.Caret($('.editor')[0]);
+
+    var htmlElement = $('.math')[0];
+    var config = {
+        restrictMismatchedBrackets: true,
+        handlers: {
+            moveOutOf: function (direction) {
+                var mathfield = MQ(htmlElement);
+                mathfield.blur();
+
+                if (~direction) {
+                    caret.moveTOStartOf(htmlElement.nextSibling)
+                } else {
+                    caret.moveTOEndOf(htmlElement.previousSibling)
+                }
+
+                //htmlElement.focus();
+                //caret.setPosition(position);
+            },
+            enter: function () {
+                debugger;
+            },
+            deleteOutOf: function (direction) {
+                debugger;
+            },
+            selectOutOf: function (direction) {
+                debugger;
+            },
+            downOutOf: function () {
+                caret.moveTOStartOf(htmlElement.nextSibling)
+            },
+            upOutOf: function () {
+                caret.moveTOEndOf(htmlElement.previousSibling)
+            }
+        }
+    };
+    //MQ.StaticMath(htmlElement, config)
+    MQ.MathField(htmlElement, config)
+            .latex('200');//^{\\frac{3}{2}}'); // Renders the given LaTeX in the MathQuill field
+    //mathField.latex(); // => '2^{\\frac{3}{2}}'
+
+    $('.wrapper .editor').keydown(function (event) {
+        console.log(event.keyCode);
+        console.log(window.getSelection());
+
+        var selection = window.getSelection();
+        if (selection.anchorNode) {
+            if (selection.anchorOffset === 0 && event.keyCode === 37) {
+                var mathEl = $(selection.anchorNode.previousSibling).closest('.math');
+
+                if (mathEl.length) {
+                    MQ(mathEl[0])
+                            .moveToRightEnd()
+                            .focus();
+                }
+            }
+
+            if (selection.anchorOffset === selection.anchorNode.length) {
+                var mathEl = $(selection.anchorNode.nextSibling).closest('.math');
+
+                if (mathEl.length) {
+                    MQ(mathEl[0])
+                            .moveToLeftEnd()
+                            .focus();
+                }
+
+            }
+        }
+
+
+        /*
+         var current = $(caret.getElement()).closest('.math');
+
+         if (current.length) {
+         console.log('activate mathquill');
+         var mathfield = MQ(current[0]);
+         mathfield.focus();
+         }
+         */
+    });
+
+    /*
+     setTimeout(function () {
+     caret.setCaretAt(1);
+
+     $('.editor').focus();
+     }, 2000)
+     */
+
+</script>
+</body>
+<html>
