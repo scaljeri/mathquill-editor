@@ -105,8 +105,9 @@
         }
     };
     //MQ.StaticMath(htmlElement, config)
-    MQ.MathField(htmlElement, config)
-            .latex('200');//^{\\frac{3}{2}}'); // Renders the given LaTeX in the MathQuill field
+    var mf = MQ.MathField(htmlElement, config)
+            .latex('2xy = 2xz');//^{\\frac{3}{2}}'); // Renders the given LaTeX in the MathQuill field
+    //console.log(mf.select());
     //mathField.latex(); // => '2^{\\frac{3}{2}}'
 
     $('.wrapper .editor').keydown(function (event) {
@@ -115,13 +116,29 @@
 
         var selection = window.getSelection();
         if (selection.anchorNode) {
-            if (selection.anchorOffset === 0 && event.keyCode === 37) {
-                var mathEl = $(selection.anchorNode.previousSibling).closest('.math');
+            if (selection.anchorOffset === 0) {
+                if (event.keyCode === 37) {
+                    var mathEl = $(selection.anchorNode.previousSibling).closest('.math');
 
-                if (mathEl.length) {
-                    MQ(mathEl[0])
-                            .moveToRightEnd()
-                            .focus();
+                    if (mathEl.length) {
+                        MQ(mathEl[0])
+                                .moveToRightEnd()
+                                .focus();
+                    }
+                }
+
+                if (event.keyCode === 8) {
+                    event.preventDefault();
+                    var mathEl = $(selection.anchorNode.previousSibling).closest('.math');
+
+                    if (mathEl.length) {
+                        debugger;
+                        MQ(mathEl[0])
+                                .moveToRightEnd()
+                                .focus()
+                                .select();
+                    }
+
                 }
             }
 
@@ -136,50 +153,63 @@
 
             }
         }
-
-
-        /*
-         var current = $(caret.getElement()).closest('.math');
-
-         if (current.length) {
-         console.log('activate mathquill');
-         var mathfield = MQ(current[0]);
-         mathfield.focus();
-         }
-         */
     });
 
-    $('.stripe-through').mousedown(function(e) {
+    /*
+     var current = $(caret.getElement()).closest('.math');
+
+     if (current.length) {
+     console.log('activate mathquill');
+     var mathfield = MQ(current[0]);
+     mathfield.focus();
+     }
+     */
+
+    var svgList = [];
+
+    $('.stripe-through').mousedown(function (e) {
         e.preventDefault();
         e.stopImmediatePropagation();
 
         var selection = MQ($('.math')[0]).__controller.cursor.selection.jQ;
         var first = $(selection[0].firstChild);
         var last = $(selection[0].lastChild);
+        svgList.push({first: first, last: last, id: 'svg-' + (svgList.length - 1)});
 
         var pos1 = first.position();
         var pos2 = last.position();
 
-        var svg = $('<svg><line></line></svg>');
+        var svg = $('<svg id="svg-' + (svgList.length - 1) + '"><line></line></svg>');
         svg.attr('height', $('.math').height());
         svg.attr('width', $('.math').width());
         var line = svg.find('line');
 
-        line.attr('x1', pos1.left + 2).attr('y1', pos1.top + first.height() -2).attr('x2', pos2.left + last.width() - 4).attr('y2', pos2.top +4);
+        line.attr('x1', pos1.left + 2).attr('y1', pos1.top + first.height() - 2).attr('x2', pos2.left + last.width() - 4).attr('y2', pos2.top + 4);
         //$('<svg height="1000" width="1000"></svg>').append(line).appendTo('body');
         svg.appendTo('.math');
 
 
-    })
+    });
 
-    /*
-     setTimeout(function () {
-     caret.setCaretAt(1);
+    var math = $('.math');
+    function repaintStripeThrough() {
+        svgList.forEach(function (info, index) {
+            var svg = math.find('#svg-' + index);
 
-     $('.editor').focus();
-     }, 2000)
-     */
+            svg.attr('height', math.height());
+            svg.attr('width', math.width());
+            var line = svg.find('line');
 
+            var pos1 = info.first.position();
+            var pos2 = info.last.position();
+
+            line.attr('x1', pos1.left + 2).attr('y1', pos1.top + info.first.height() - 2).attr('x2', pos2.left + info.last.width() - 4).attr('y2', pos2.top + 4);
+        });
+    }
+
+    math.keyup(function () {
+        repaintStripeThrough();
+    });
 </script>
 </body>
 <html>

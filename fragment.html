@@ -1,0 +1,120 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <style>
+        div {
+            border: 1px solid #000;
+            height: 100px;
+            width: 200px;
+        }
+
+        span {
+            font-weight: 700;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js"
+            integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+
+    <head>
+
+<body>
+<div contenteditable>foo bar</div>
+
+<button>ADD `HELLO`</button>
+
+<script>
+    function inject(el) {
+        var range,
+                sel = window.getSelection();
+
+        range = sel.getRangeAt(0);
+        range.deleteContents();
+
+        range.insertNode(el);
+
+        range = range.cloneRange();
+        range.setStartAfter(el);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+
+    $('button').click(function () {
+        var el = $('[contenteditable]')[0].lastChild;
+        console.log(el);
+
+        var range = document.createRange();
+        range.setStart(el, el.length);
+        range.collapse(true);
+
+        var selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+        $('[contenteditable]').focus();
+    });
+
+    $('[contenteditable]').mouseup(function () {
+
+
+        var el = document.createElement('span');
+        el.innerHTML = 'YES';
+        inject(el);
+    });
+
+    function pasteElementAtCaret(el) {
+        var range,
+            sel = window.getSelection();
+
+        range = sel.getRangeAt(0);
+        range.deleteContents();
+
+        range.insertNode(el);
+
+        return;
+        // Preserve the selection
+        if (lastNode) {
+            range = range.cloneRange();
+            range.setStartAfter(lastNode);
+            range.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+    }
+
+    function __pasteHtmlAtCaret(html) {
+        var range,
+                sel = window.getSelection();
+
+        if (sel.getRangeAt && sel.rangeCount) {
+            range = sel.getRangeAt(0);
+            range.deleteContents();
+
+            // Range.createContextualFragment() would be useful here but is
+            // only relatively recently standardized and is not supported in
+            // some browsers (IE9, for one)
+            var el = document.createElement("div");
+            el.innerHTML = html;
+            var frag = document.createDocumentFragment(), node, lastNode;
+            while ((node = el.firstChild)) {
+                lastNode = frag.appendChild(node);
+            }
+            range.insertNode(frag);
+
+            // Preserve the selection
+            if (lastNode) {
+                range = range.cloneRange();
+                range.setStartAfter(lastNode);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+        }
+    }
+</script>
+</body>
+</html>
+

@@ -10,7 +10,7 @@ app.Wysiwyg = (function (el) {
     this.el = el;
     el.addClass('wysiwyg');
 
-    el.click(this.onClick.bind(this));
+    //el.click(this.onClick.bind(this));
 
     // When to insert char
     el.on('keydown', function (e) {
